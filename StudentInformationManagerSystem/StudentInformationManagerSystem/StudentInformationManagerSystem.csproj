@@ -37,6 +37,7 @@
       <HintPath>..\packages\HZH_Controls.1.0.13\lib\net40\HZH_Controls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,12 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BLL-Interface\ICreateSha256Pwd.cs" />
+    <Compile Include="BLL\BLL-Interface\ICreateValidateCode.cs" />
+    <Compile Include="BLL\ControlSettingInterface\ISetValidateControlConfig.cs" />
+    <Compile Include="BLL\ControlSetting\ControlSet.cs" />
+    <Compile Include="BLL\CreateGenericCode.cs" />
+    <Compile Include="DAL\BaseClass\SqlHelper.cs" />
+    <Compile Include="DAL\ModelDAL\T_UserDAl.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\T_User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -83,5 +92,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
