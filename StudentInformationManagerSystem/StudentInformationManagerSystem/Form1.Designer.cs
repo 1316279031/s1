@@ -208,7 +208,7 @@
             this.txtValidateCode.IsFocusColor = true;
             this.txtValidateCode.IsRadius = true;
             this.txtValidateCode.IsShowClearBtn = true;
-            this.txtValidateCode.IsShowKeyboard = false;
+            this.txtValidateCode.IsShowKeyboard = true;
             this.txtValidateCode.IsShowRect = false;
             this.txtValidateCode.IsShowSearchBtn = false;
             this.txtValidateCode.KeyBoardType = HZH_Controls.Controls.KeyBoardType.UCKeyBorderAll_EN;

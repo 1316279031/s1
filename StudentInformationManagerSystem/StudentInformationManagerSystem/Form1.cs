@@ -12,6 +12,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -39,9 +40,10 @@ namespace StudentInformationManagerSystem
         }
         private void ucBtnExt1_BtnClick(object sender, EventArgs e)
         {
-            bool accValResult=verAccountValidate.Verification(txtAcc);
-            bool pwdValResult=verPwdValidate.Verification(txtPwd);
-            bool memValCodeResult=verValidateCode.Verification(txtValidateCode);
+            txtValidateCode.InputText = txtValidateCode.InputText.ToLower();
+            bool accValResult = verAccountValidate.Verification(txtAcc);
+            bool pwdValResult = verPwdValidate.Verification(txtPwd);
+            bool memValCodeResult = verValidateCode.Verification(txtValidateCode);
             try
             {
                 if (accValResult && pwdValResult && memValCodeResult)
