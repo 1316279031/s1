@@ -28,13 +28,68 @@
   - 因每个班可能相同的课程，但不是同一位老师
 + **成绩(StuID,CourseID,Grade)**
   - *学号,课程号,成绩*
+  
 # 程序设计
+   ## 登录
 1. **增删改->使用存储过程**
 2. **连接查询->使用存储过程**
-
-
-
-
+3. **账号验证正则规则:**
+   - *账号必须为数字字符*
+   - *账号必须在10-15（包含10,15）之间*
+   - **^ [0-9]{10,15}$**
+4. **密码必须包含数字+字符**
+    ## 主界面
+#### 导航菜单
+1. **信息管理**
+   - **学生信息管理**
+     - *学信息基本信息管理*
+     - *学生详细信息管理*
+     - *学生分数管理*
+   - **班级信息管理**
+     - *班级信息基本模块*
+     - *班级相关开课分数*
+   - **课程信息管理**
+     - *新增课程管理*
+   - **教师信息管理**
+2. **权限管理**
+3. **学院管理**
+4. **账户管理**
+#### 问题解决
+1. **因控件菜单选项NavigationMenuItem类型并未设置点击事件**
+   ###### 解决方法
+   - **创建ExpandNavigationMenuItem类型继承NavigationMenuItem**
+   - **定义Click事件字段**
+   - **触发事件方法**
+    ```/// <summary>
+    /// 扩展导航菜单控件Click事件
+    /// </summary>
+    public class ExpandNavigationMenuItem: NavigationMenuItem
+    {
+        /// <summary>
+        /// 扩展事件
+        /// </summary>
+        public event EventHandler Click;
+        
+        /// <summary>
+        /// 触发事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void Start(object sender,EventArgs args) {
+            Click(sender,args);
+        }
+    }
+2. **垂直导航栏**
+   - **使用TreeViewEx控件**
+   - **为每个具有功能模块的跳转项添加Tag标签**
+   - **使用AfterSelect事件，获取当前点击的树上的节点**
+    ## 信息管理模块
+    ### 学生信息管理
+    #### 导航栏设置
+    - **查询信息,更新信息，插入信息，删除信息，上一页，下一页**
+      - *查询信息:查询所有、模糊查询*
+    - **查询输出信息一律按照降序给出，因为最新加入的数据，越是容易查看**
+    - **垂直树:学院->班级->学生**
 #存储过程
 + **分页**
   - *主要功能*
@@ -44,8 +99,11 @@
   >基本关键字使用
   >>使用子查询，得到一个可进行分页的ID
   >>使用Row_Number Over(order by ………………)
+  >>>存储过程名为:SelectStudent_Pagiation
+  该存储过程如果传递的classid值为-1；即表示分页查询所有数据
+如果传入的classsid!=-1即表示根据classid进行分页查询
 
-
++ ****
 
 
 
@@ -56,3 +114,11 @@
 ##### 1. **数据库(学院,班级,学生)数据已录入完毕**
 ##### 2. **数据库(教师表,课程表)数据已录入完毕**
 ##### 3. **数据库(成绩表)数据已录入完毕**
+
+# 美化控件使用方法
+### 表单控件的验证
+1. **设置自定义的正则表达式验证**
+>    `verCon1.SetVerificationErrorMsg(绑定控件, 提示信息);`
+>    `verCon1.SetVerificationRequired(绑定控件, true);`
+>    `verCon1.SetVerificationModel(绑定控件, VerificationModel.Custom(使用用户自定义验证模式));`
+>    `verCon1.SetVerificationCustomRegex(绑定控件, 正则表达式);`
