@@ -21,6 +21,50 @@ namespace StudentInformationManagerSystem
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            LoadNavigationMenuItem();
+            LoadMenuItem();
+        }
+        //垂直导航菜单(垂直的)
+        private void LoadMenuItem() {
+            tvMenu.Nodes.Add("通知");
+            tvMenu.Nodes[0].Tag = -1;
+            tvMenu.Nodes[0].Nodes.Add("操作通知");
+            tvMenu.Nodes[0].Nodes[0].Tag = 0;
+            tvMenu.Nodes.Add("排班");
+            tvMenu.Nodes[1].Nodes.Add("我的排班");
+            tvMenu.Nodes[1].Nodes[0].Tag = 1;
+            tvMenu.Nodes[1].Tag = -1;
+            tvMenu.Nodes.Add("新闻");
+            tvMenu.Nodes[2].Nodes.Add("学院新闻");
+            tvMenu.Nodes[2].Nodes[0].Tag = 2;
+            tvMenu.Nodes[2].Tag = -1;
+            tvMenu.AfterSelect += Click_OpenAdminModifyDataInformation;
+        }
+        private void Click_OpenAdminModifyDataInformation(object sender, TreeViewEventArgs e)
+        {
+            var tag = (int)e.Node.Tag;
+            switch (tag)
+            {
+                case 0:
+                    {
+                        MessageBox.Show("操作通知");
+
+                    }; break;
+                case 1:
+                    {
+                        MessageBox.Show("我的排班");
+                    }; break;
+                case 2:
+                    {
+                        MessageBox.Show("学院新闻");
+                    }; break;
+                default: break;
+            }
+        }
+
+        //加载导航菜单（横向的）
+        private void LoadNavigationMenuItem()
+        {
             //加载导航栏菜单项
             //为各个菜单项添加事件触发
             ExpandNavigationMenuItem[] it1 = new ExpandNavigationMenuItem[] {
@@ -39,17 +83,26 @@ namespace StudentInformationManagerSystem
                 new ExpandNavigationMenuItem{ Text="学院管理"},
                 new ExpandNavigationMenuItem{ Text="账户管理",AnchorRight=true},
             };
+            var it2 = new ExpandNavigationMenuItem[] {
+                new ExpandNavigationMenuItem{Text="修改密码" },
+                new ExpandNavigationMenuItem{ Text="退出"},
+            };
+            it2[0].Click += Click_OpenModifyPwd;
+            it2[1].Click += Click_LogOut;
+            navigation[3].Items = it2;
             navigation[1].Click += Click_OpenAuthorityMana;
             navigation[2].Click += Click_OpenCollegeMana;
-            navigation[3].Click += Click_OpenAccountMana;
             naMenu.Items = navigation;
             //控件事件(sender=控件对象)
             naMenu.ClickItemed += NaMenu_ClickItemed;
         }
-
-        private void Click_OpenAccountMana(object sender, EventArgs e)
+        private void Click_LogOut(object sender, EventArgs e) { 
+            MessageBox.Show("退出");
+            this.Close();
+        }
+        private void Click_OpenModifyPwd(object sender, EventArgs e)
         {
-            MessageBox.Show("打开账号管理");
+            MessageBox.Show("修改密码");
         }
 
         private void Click_OpenCollegeMana(object sender, EventArgs e)

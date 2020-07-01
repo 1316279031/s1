@@ -18,6 +18,7 @@ namespace StudentInformationManagerSystem.DAL.BaseClass
                     {
                         cmd.Parameters.AddRange(pars);
                     }
+                    cmd.CommandType = cmdType;
                     con.Open();
                     return cmd.ExecuteNonQuery();
                 }
@@ -33,6 +34,7 @@ namespace StudentInformationManagerSystem.DAL.BaseClass
                     {
                         cmd.Parameters.AddRange(pars);
                     }
+                    cmd.CommandType = cmdType;
                     con.Open();
                     return cmd.ExecuteScalar();
                 }
@@ -47,6 +49,7 @@ namespace StudentInformationManagerSystem.DAL.BaseClass
                 try
                 {
                     con.Open();
+                    cmd.CommandType = cmdType;
                     return cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 }
                 catch {
@@ -60,6 +63,7 @@ namespace StudentInformationManagerSystem.DAL.BaseClass
                 if (pars != null) {
                     adapter.SelectCommand.Parameters.AddRange(pars);
                 }
+                adapter.SelectCommand.CommandType = cmdType;
                 DataTable table = new DataTable();
                 adapter.Fill(table);
                 return table;
