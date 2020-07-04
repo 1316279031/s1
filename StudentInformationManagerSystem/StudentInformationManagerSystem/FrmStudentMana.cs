@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,6 +24,7 @@ namespace StudentInformationManagerSystem
         }
         private int curIndex = 1;
         private int dataLength = 16;
+        //classID=-1;表示加载所有学生
         private int classID = -1;
         private void FrmStudentMana_Load(object sender, EventArgs e)
         {
@@ -117,17 +119,121 @@ namespace StudentInformationManagerSystem
         //删除数据
         private void Click_DeleteDataInforamtion(object sender, EventArgs e)
         {
-            MessageBox.Show("删除");
+            //选中一行数据删除即可
+            //首先检查当前是否已选中DataGridView中的一行
+            //选中:则将其数据提取到弹窗中
+            //未选中:提示弹窗需要先进行选取一行
+            var rows = dataGridView1.SelectedRows;
+            //无论用户选择多少行，每次都只获取用户选择的行中的第一行
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "您必须选择一行数据", "提示");
+                return;
+            }
+            //获取所选中第一行所绑定的数据对象
+            var row = rows[0];
+            var t_Student = row.DataBoundItem as T_Student;
+            if (t_Student == null)
+            {
+                return;
+            }
+            string t_sql = "DeleteIntoStudentBasicInformation";
+            SqlParameter par= new SqlParameter("@StuID",SqlDbType.Int){Value=t_Student.StuID };
+            T_StudentDal dal = new T_StudentDal();
+            try
+            {
+                var res = (int)dal.ExecuteScalar(t_sql, CommandType.StoredProcedure, par);
+                if (res == 1) {
+                    curIndex = 1;
+                    dataGridView1.DataSource = dal.LoadStudents(curIndex, dataLength, classID);
+                    FrmDialog.ShowDialog(this, "删除成功", "提示");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                FrmDialog.ShowDialog(this, "删除失败", "提示");
+            }
+
         }
         //插入数据
         private void Click_OpenInsertDataInforamtion(object sender, EventArgs e)
         {
-            MessageBox.Show("插入");
+            //进行插入数据的操作
+            //打开多输入窗口
+            FrmInputs input = new FrmInputs("插入学生数据", new string[] { "学号", "姓名", "出生年月","性别","班级编号" },new Dictionary<string, HZH_Controls.TextInputType>() { { "学号", HZH_Controls.TextInputType.Regex },{ "性别",HZH_Controls.TextInputType.Regex },{"班级编号",HZH_Controls.TextInputType.Regex } },
+                new Dictionary<string, string>() { { "学号", @"^\d+$" },{"性别", @"^[\u4e00-\u9fa5]{1}$" },{"班级编号",@"^\d+$"} });
+            input.ShowDialog();
+            var values=input.Values;
+            //确保所有数据已输入
+            foreach (var item in values)
+            {
+                if (item==null||item.Trim() == string.Empty) return;
+            }
+            //必须判断日期输入是否正确
+            int sex = values[3] == "男" ? 1 : 0;
+            var res=Regex.IsMatch(values[2], @"^(?!0000)[0-9]{4}-((0{0,1}[1-9]|1[0-2])-(0{0,1}[1-9]|1[0-9]|2[0-8])|(0{0,1}[13-9]|1[0-2])-(29|30)|(0{0,1}[13578]|1[02])-31)$");
+            if (res == false) return;
+            //插入数据存储过程
+            string t_sql = "InserIntoStudentBasicInformation";
+            SqlParameter[] pars = new SqlParameter[] {
+                new SqlParameter("@StuID",SqlDbType.Int){Value=values[0] },
+                new SqlParameter("@StuName",SqlDbType.VarChar,20){ Value=values[1]},
+                new SqlParameter("@StuBirthday",SqlDbType.Date){Value=values[2] },
+                new SqlParameter("@StuSex",SqlDbType.BigInt){Value=sex },
+                new SqlParameter("@ClassID",SqlDbType.Int){Value=values[4] }
+            };
+
+            T_StudentDal dal = new T_StudentDal();
+            //调用 Dal
+            try
+            {
+                int resVal = (int)dal.ExecuteScalar(t_sql, CommandType.StoredProcedure, pars);
+                if (resVal == 1)
+                {
+                    curIndex = 1;
+                    classID = int.Parse(values[4]);
+                    dataGridView1.DataSource = dal.LoadStudents(curIndex, dataLength, classID);
+                    FrmDialog.ShowDialog(this, "保存成功", "提示");
+                }
+                else
+                {
+                    throw new Exception("保存失败");
+                }
+            }
+            catch (Exception ex)
+            {
+                FrmDialog.ShowDialog(this,"保存失败,请检查您输入的学号、班级编号输入正确","提示");
+            }
         }
         //更新数据
         private void Click_OpenUpdateDataInforamtion(object sender, EventArgs e)
         {
-            MessageBox.Show("更新");
+            //首先检查当前是否已选中DataGridView中的一行
+            //选中:则将其数据提取到弹窗中
+            //未选中:提示弹窗需要先进行选取一行
+            var rows=dataGridView1.SelectedRows;
+            //无论用户选择多少行，每次都只获取用户选择的行中的第一行
+            if(rows.Count==0)
+            {
+                FrmDialog.ShowDialog(this, "您必须选择一行数据", "提示");
+                return;
+            }
+            //获取所选中第一行所绑定的数据对象
+            var row=rows[0];
+            var t_Student = row.DataBoundItem as T_Student;
+            if (t_Student == null) {
+                return;
+            }
+            FrmStudentManaChildModifyData childUpdate = new FrmStudentManaChildModifyData(t_Student);
+            childUpdate.ShowDialog();
+            curIndex = 1;
+            classID= t_Student.ClassID;
+            T_StudentDal dal = new T_StudentDal();
+            dataGridView1.DataSource = dal.LoadStudents(curIndex, dataLength, classID);
         }
 
         private void Click_Start(object sender, EventArgs e)
@@ -141,13 +247,27 @@ namespace StudentInformationManagerSystem
         //模糊查询
         private void Click_QueryOnly(object sender, EventArgs e)
         {
-            MessageBox.Show("模糊查询");
+            //打开多输入窗口
+            FrmInputs input = new FrmInputs("模糊查询",new string []{"学号","姓名","班级编号" });
+            input.ShowDialog();
+            //获取输入值
+            var values = input.Values;
+            //进行模糊查询配置
+            string t_sql = "select StuID, StuName, StuBirthday, StuSex, ClassID from T_StudentBasicInformation where StuID like @stuID and StuName like @name and ClassID like @classID";
+            SqlParameter[] pars = new SqlParameter[] { 
+                new SqlParameter("@stuID",SqlDbType.VarChar){Value="%"+values[0]+"%" },
+                new SqlParameter("@name",SqlDbType.VarChar){Value="%"+values[1]+"%" },
+                new SqlParameter("@classID",SqlDbType.VarChar){Value="%"+values[2]+"%" }
+            };
+            T_StudentDal dal = new T_StudentDal();
+            var res=dal.FuzzyQuery(t_sql, CommandType.Text, pars);
+            dataGridView1.DataSource = res;
+            ResetCurIndexAndClassID(1, classID);
         }
         //查询所有
         private void Click_QueryAll(object sender, EventArgs e)
         {
-            curIndex = 1;
-            classID = -1;
+            ResetCurIndexAndClassID(1, -1);
             var res = new T_StudentDal().LoadStudents(curIndex, dataLength, classID);
             if (res == null)
             {
@@ -170,7 +290,8 @@ namespace StudentInformationManagerSystem
             classID = @class.ClassID;
             //临时保存curIndex页，保证我们的SQL语句在执行报错的情况下，恢复curIndex状态
             int temp2 = curIndex;
-            curIndex = 1;
+            //重置curIndex=1;(因为页面重新加载了)
+            ResetCurIndexAndClassID(1, classID);
             T_StudentDal dal = new T_StudentDal();
             try
             {
@@ -179,9 +300,17 @@ namespace StudentInformationManagerSystem
             }
             catch
             {
-                classID = temp1;
-                curIndex = temp2;
+                ResetCurIndexAndClassID(temp2, temp1);
             }
+        }
+        /// <summary>
+        /// 重置curIndex与classID
+        /// </summary>
+        /// <param name="curIndex"></param>
+        /// <param name="classID"></param>
+        private void ResetCurIndexAndClassID(int curIndex, int classID) {
+            this.curIndex = curIndex;
+            this.classID = classID;
         }
     }
 }
