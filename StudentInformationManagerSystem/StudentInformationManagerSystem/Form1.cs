@@ -60,7 +60,10 @@ namespace StudentInformationManagerSystem
                     {
                         user = new T_User(txtAcc.InputText, Convert.ToInt32(obj));
                         //打开主界面窗体
-                        MessageBox.Show("登录成功");
+                        FrmMain main = new FrmMain();
+                        Hide();
+                        main.ShowDialog();
+                        Close();
                         return;
                     }
                     else

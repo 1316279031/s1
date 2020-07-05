@@ -127,12 +127,16 @@ namespace StudentInformationManagerSystem
 
         private void Click_OpenClassInforamationMana(object sender, EventArgs e)
         {
-            MessageBox.Show("打开班级信息管理");
+            //打开班级信息管理窗口
+
         }
 
         private void Click_OpenStudetnInforamationMana(object sender, EventArgs e)
         {
-            MessageBox.Show("打开学生信息管理");
+            //打开学生管理窗口
+            FrmStudentMana stumain = new FrmStudentMana();
+            Hide();
+            stumain.ShowDialog();
         }
 
         private void NaMenu_ClickItemed(object sender, EventArgs e)

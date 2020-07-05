@@ -10,11 +10,18 @@ namespace StudentInformationManagerSystem.Model
     {
         public int ClassID { get; set; }
         public string ClassName { get; set; }
+        public int CollegeID { get; set; }
         public T_Class() { 
         }
         public T_Class(int classID, string className) { 
             ClassID=classID;
             ClassName = className;
+        }
+        public T_Class(int classID, string className, int collegeID)
+        {
+            ClassID = classID;
+            ClassName = className;
+            CollegeID = collegeID;
         }
     }
 }

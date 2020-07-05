@@ -66,6 +66,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmClassMana.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmClassMana.Designer.cs">
+      <DependentUpon>FrmClassMana.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +90,12 @@
     <Compile Include="FrmStudentManaChildModifyData.Designer.cs">
       <DependentUpon>FrmStudentManaChildModifyData.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmUpdataClassInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmUpdataClassInformation.Designer.cs">
+      <DependentUpon>FrmUpdataClassInformation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\ExpandMenuItemEntity.cs" />
     <Compile Include="Model\ExpandNavigationMenuItem.cs" />
     <Compile Include="Model\T_Class.cs" />
@@ -96,6 +108,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmClassMana.resx">
+      <DependentUpon>FrmClassMana.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmStudentManaChildModifyData.resx">
       <DependentUpon>FrmStudentManaChildModifyData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmUpdataClassInformation.resx">
+      <DependentUpon>FrmUpdataClassInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
