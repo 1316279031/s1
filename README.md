@@ -109,7 +109,7 @@
     model=3:查询所有学生成绩
     model=4:模糊查询学生成绩
 
-#存储过程
+# 存储过程
 + **分页**
   - *主要功能*
     -  *连接查询T_StudentBasicInfomation,T_Class，T_College*
