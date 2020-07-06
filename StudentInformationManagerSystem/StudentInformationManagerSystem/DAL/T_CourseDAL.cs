@@ -50,10 +50,11 @@ namespace StudentInformationManagerSystem.DAL
                     res = new List<T_Course>();
                     while (reader.Read())
                     {
+                        //select s3.CourseID,s3.ClassID,s3.ClassName,s3.CourseName,s3.TeacherName
                         T_Course course = new T_Course();
-                        course.classID = reader.GetInt32(0);
-                        course.ClassName = reader.GetString(1);
-                        course.CourseID = reader.GetInt32(2);
+                        course.CourseID = reader.GetInt32(0);
+                        course.classID = reader.GetInt32(1);
+                        course.ClassName = reader.GetString(2);
                         course.CourseName = reader.GetString(3);
                         course.teachID = reader.GetInt32(4);
                         course.TeachName = reader.GetString(5);
