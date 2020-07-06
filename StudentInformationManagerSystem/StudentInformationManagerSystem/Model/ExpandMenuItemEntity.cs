@@ -1,4 +1,5 @@
-﻿using HZH_Controls.Controls;
+﻿using HZH_Controls;
+using HZH_Controls.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,19 @@ namespace StudentInformationManagerSystem.Model
 {
     public class ExpandMenuItemEntity: MenuItemEntity
     {
-        public event EventHandler Click;
+        public event EventHandler Click {
+            add
+            {
+                click += value;
+            }
+            remove
+            {
+                click -= value;
+            }
+        }
+        private EventHandler click;
         public void Start(object sender,EventArgs args) {
-            Click(sender, args);
+            click(sender, args);
         }
     }
 }

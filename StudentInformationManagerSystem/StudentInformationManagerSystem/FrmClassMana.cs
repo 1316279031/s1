@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace StudentInformationManagerSystem
         {
             InitializeComponent();
         }
-        private int curIndex = 1;
+        private int curIndex = 1; 
         private int collegeID = -1;
         private int dataLength = 16;
         private void FrmClassMana_Load(object sender, EventArgs e)
@@ -96,6 +97,39 @@ namespace StudentInformationManagerSystem
 
         private void Click_DeleteDataInforamtion(object sender, EventArgs e)
         {
+            //删除信息
+            var rows = dataGridView1.SelectedRows;
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "请选择一行");
+                return;
+            }
+            var row = rows[0].DataBoundItem as T_Class;
+            if (row == null) return;
+            string t_sql = "DeleteIntoT_Class";
+            SqlParameter par = new SqlParameter("@classID", SqlDbType.Int) { Value = row.ClassID };
+            T_ClassDAL dal = new T_ClassDAL();
+            int temp1 = curIndex;
+            int temp2 = collegeID;
+            try
+            {
+                var res = (int)dal.ExecuteScalar(t_sql, CommandType.StoredProcedure, par);
+                if (res == 1)
+                {
+                    dataGridView1.DataSource = dal.LoadPagiation(curIndex, dataLength, collegeID);
+                    FrmDialog.ShowDialog(this, "保存成功");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
+                curIndex = temp1;
+                collegeID = temp2;
+                FrmDialog.ShowDialog(this, "保存失败,请检查输入是否正确");
+            }
 
         }
         //下一页
@@ -112,9 +146,44 @@ namespace StudentInformationManagerSystem
             }
             dataGridView1.DataSource = res;
         }
-
+        //插入数据
         private void Click_OpenInsertDataInforamtion(object sender, EventArgs e)
         {
+            FrmInputs inputs = new FrmInputs("插入班级信息", new string[] { "班级名称", "学院编号" }, new Dictionary<string, HZH_Controls.TextInputType>() { { "班级名称", HZH_Controls.TextInputType.Regex }, { "学院编号", HZH_Controls.TextInputType.Regex } }, new Dictionary<string, string>() { { "班级名称", @"^[\u4E00-\u9FFF0-9]+$" } ,{"学员编号",@"^\d+$" } });
+            inputs.ShowDialog();
+            var values = inputs.Values;
+            foreach (var item in values)
+            {
+                if (item == null || item == string.Empty) return;
+            }
+            string t_sql = "InsertintoT_Class";
+            SqlParameter[] pars = new SqlParameter[] {
+                new SqlParameter("@className",SqlDbType.VarChar,20){Value=values[0] },
+                new SqlParameter("@collegeID",SqlDbType.Int){Value=values[1] },
+            };
+            T_ClassDAL dal = new T_ClassDAL();
+            int temp1 = curIndex;
+            int temp2 = collegeID;
+            try
+            {
+                var res = (int)dal.ExecuteScalar(t_sql, CommandType.StoredProcedure, pars);
+                if (res == 1)
+                {
+                    curIndex = 1;
+                    dataGridView1.DataSource = dal.LoadPagiation(curIndex, dataLength, collegeID);
+                    FrmDialog.ShowDialog(this, "保存成功");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
+                curIndex = temp1;
+                collegeID = temp2;
+                FrmDialog.ShowDialog(this, "保存失败,请检查输入是否正确");
+            }
         }
         //弹出更新信息子窗体，进行修改保存
         private void Click_OpenUpdateDataInforamtion(object sender, EventArgs e)
@@ -144,6 +213,18 @@ namespace StudentInformationManagerSystem
         //模糊查询
         private void Click_QueryOnly(object sender, EventArgs e)
         {
+            FrmInputs inputs = new FrmInputs("模糊查询", new string[] { "班级编号","班级名称", "学院编号" }, new Dictionary<string, HZH_Controls.TextInputType>() { {"班级编号",HZH_Controls.TextInputType.Regex },{ "班级名称", HZH_Controls.TextInputType.Regex }, { "学院编号", HZH_Controls.TextInputType.Regex } }, new Dictionary<string, string>() { {"班级编号",@"^\d+$" }, { "班级名称", @"^[\u4E00-\u9FFF0-9]+$" }, { "学员编号", @"^\d+$" } });
+            inputs.ShowDialog();
+            var values = inputs.Values;
+            T_ClassDAL dal = new T_ClassDAL();
+            string t_sql = "FulzySearchInT_Class";
+            SqlParameter[] pars = new SqlParameter[] {
+                new SqlParameter("@classID",SqlDbType.VarChar){ Value="%"+values[0]+"%"},
+                new SqlParameter("@className",SqlDbType.VarChar){ Value="%"+values[1]+"%"},
+                new SqlParameter("@collegeID",SqlDbType.VarChar){ Value="%"+values[2]+"%"}
+
+            };
+           dataGridView1.DataSource= dal.FulzySearch(t_sql, CommandType.StoredProcedure, pars);
         }
         //查询所有
         private void Click_QueryAll(object sender, EventArgs e)

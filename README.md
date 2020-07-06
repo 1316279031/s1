@@ -94,6 +94,21 @@
     - **curIndex:当前数据页**
     - **classID=-1:表示加载所有学生**
     - **使用子窗体完成数据的更新**
+
+## 课程信息管理
+  - **课程信息:即学校已开设的课程**
+  - **班级开课信息:班级所开课程**
+  - **学生成绩:即学生成绩**
+  - **modelID:此字段非常重要（控制上一页下一页的切换查询）**
+    - *Loades方法根据modelID,curIndex,dataLength三个字段进行不同的查询选择;其中modelID(是switch参数)*
+    ```
+    modelID=-1:查询所有课程信息
+    model=0:对课程信息进行模糊查询
+    model=1:查询所有班级开课信息::::
+    model=2:班级开课信息的模糊查询：：：并且此modelID的设置页用在了TreeView控件上的点击事件中
+    model=3:查询所有学生成绩
+    model=4:模糊查询学生成绩
+
 #存储过程
 + **分页**
   - *主要功能*
@@ -113,7 +128,8 @@
 + **ModifyIntoStudentBasicInformation：更新学生基本信息的存储过程**
 
 + **DeleteIntoStudentBasicInformation删除学生基本信息的存储过程**
-
++ **SelectT_ClassCourse:主要在查询开设课程时，可以进行模糊查询+分页**
++  ****
 
 
 

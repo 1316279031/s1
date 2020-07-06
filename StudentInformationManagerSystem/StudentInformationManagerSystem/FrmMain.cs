@@ -122,13 +122,19 @@ namespace StudentInformationManagerSystem
 
         private void Click_OpenCourseInforamtionMna(object sender, EventArgs e)
         {
-            MessageBox.Show("打开课程信息管理");
+            FrmCourseMana courseMain = new FrmCourseMana();
+            Hide();
+            courseMain.ShowDialog();
+            Show();
         }
 
         private void Click_OpenClassInforamationMana(object sender, EventArgs e)
         {
             //打开班级信息管理窗口
-
+            FrmClassMana classMain = new FrmClassMana();
+            Hide();
+            classMain.ShowDialog();
+            Show();
         }
 
         private void Click_OpenStudetnInforamationMana(object sender, EventArgs e)
@@ -137,6 +143,7 @@ namespace StudentInformationManagerSystem
             FrmStudentMana stumain = new FrmStudentMana();
             Hide();
             stumain.ShowDialog();
+            Show();
         }
 
         private void NaMenu_ClickItemed(object sender, EventArgs e)

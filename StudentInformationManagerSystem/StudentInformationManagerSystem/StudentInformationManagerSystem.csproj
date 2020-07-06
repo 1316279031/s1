@@ -60,6 +60,7 @@
     <Compile Include="DAL\T_CollegeDAL.cs" />
     <Compile Include="DAL\BaseClass\SqlHelper.cs" />
     <Compile Include="DAL\ModelDAL\T_UserDAl.cs" />
+    <Compile Include="DAL\T_CourseDAL.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +72,12 @@
     </Compile>
     <Compile Include="FrmClassMana.Designer.cs">
       <DependentUpon>FrmClassMana.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmCourseMana.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCourseMana.Designer.cs">
+      <DependentUpon>FrmCourseMana.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
@@ -98,8 +105,11 @@
     </Compile>
     <Compile Include="Model\ExpandMenuItemEntity.cs" />
     <Compile Include="Model\ExpandNavigationMenuItem.cs" />
+    <Compile Include="Model\PageTrunArgs.cs" />
     <Compile Include="Model\T_Class.cs" />
     <Compile Include="Model\T_College.cs" />
+    <Compile Include="Model\T_Course.cs" />
+    <Compile Include="Model\T_CourseName.cs" />
     <Compile Include="Model\T_Student.cs" />
     <Compile Include="Model\T_User.cs" />
     <Compile Include="Program.cs" />
@@ -110,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmClassMana.resx">
       <DependentUpon>FrmClassMana.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmCourseMana.resx">
+      <DependentUpon>FrmCourseMana.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>

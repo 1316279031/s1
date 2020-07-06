@@ -107,5 +107,33 @@ namespace StudentInformationManagerSystem.BLL
             SqlHelper sqlHelper = new SqlHelper();
             return sqlHelper.ExecuteScalar(t_sql, cmdType, pars);
         }
+        /// <summary>
+        /// 模糊查询
+        /// </summary>
+        /// <param name="t_sql"></param>
+        /// <param name="cmdType"></param>
+        /// <param name="pars"></param>
+        /// <returns></returns>
+        public List<T_Class> FulzySearch(string t_sql, CommandType cmdType,params SqlParameter[] pars)
+        {
+            SqlHelper sqlhelper = new SqlHelper();
+            List<T_Class> res = null;
+            using (SqlDataReader reader = sqlhelper.ExecuteReader(t_sql, cmdType, pars))
+            {
+                if (reader.HasRows)
+                {
+                    res = new List<T_Class>();
+                    while (reader.Read())
+                    {
+                        var id = reader.GetInt32(0);
+                        var name = reader.GetString(1);
+                        var college = reader.GetInt32(2);
+                        T_Class @class = new T_Class(id, name, college);
+                        res.Add(@class);
+                    }
+                }
+            }
+            return res;
+        }
     }
 }
