@@ -1,4 +1,5 @@
 ﻿using HZH_Controls.Controls;
+using HZH_Controls.Forms;
 using StudentInformationManagerSystem.BLL;
 using StudentInformationManagerSystem.DAL;
 using StudentInformationManagerSystem.Model;
@@ -144,24 +145,20 @@ namespace StudentInformationManagerSystem
         private void OpenClassCourseDataInforamtionFulySerach(object sender, EventArgs e)
         {
             //班级开课信息模糊查询
-            MessageBox.Show("班级开课信息模糊查询");
-
+            FrmInputs inputs = new FrmInputs("班级开课查询", new string[] { "课程名", "班级名", "教师名" }, new Dictionary<string, HZH_Controls.TextInputType>() { { "课程名", HZH_Controls.TextInputType.Regex }, { "班级名", HZH_Controls.TextInputType.Regex }, { "教师名", HZH_Controls.TextInputType.Regex } }, new Dictionary<string, string>() { { "课程名", @"^.+$" }, { "班级名", @"^[\u4E00-\u9FFF0-9]+$" }, {"教师名", @"^[\u4E00-\u9FFF0-9]+$" } });
+            var dialogRes=inputs.ShowDialog();
+            if (dialogRes == DialogResult.Cancel)
+            {
+                return;
+            }
+            values = new string[] { inputs.Values[0], inputs.Values[1], inputs.Values[2] };
+            InitialCurIndexToLoades(2);
         }
 
         private void OpenClassOurseDataInformationQueryAll(object sender, EventArgs e)
         {
             //查询班级开课信息
-            modelID = 1;
-            int temp = curIndex;
-            try
-            {
-                var res = Loades();
-                SetDataGridViewDataSource(res);
-            }
-            catch
-            {
-                curIndex = temp;
-            }
+            InitialCurIndexToLoades(1);
         }
         //0:courseName 1:className 2:teachName
         private string[] values;
@@ -249,36 +246,39 @@ namespace StudentInformationManagerSystem
         private void OpenCourseFactionDataInformationFulySerach(object sender, EventArgs e)
         {
             //学生成绩模糊查询
-            MessageBox.Show("学生成绩模糊查询");
+            FrmInputs inputs = new FrmInputs("成绩查询",new string[] {"学生编号","学生姓名","课程名称","教师姓名"}, new Dictionary<string, HZH_Controls.TextInputType>() { {"学生编号",HZH_Controls.TextInputType.Regex },{ "学生姓名",HZH_Controls.TextInputType.Regex},{"课程名称",HZH_Controls.TextInputType.Regex },{"教师姓名",HZH_Controls.TextInputType.Regex } },new Dictionary<string, string>() { { "学生编号",@"^\d+$" },{"学生姓名", @"^[\u4E00-\u9FFF]+$" },{"课程名称",@"^.+$" },{"教师姓名",@"^[\u4E00-\u9FFF]$" } });
+            var dialogRes=inputs.ShowDialog();
+            if (dialogRes == DialogResult.Cancel)
+            {
+                return;
+            }
+            values = new string[] { inputs.Values[0], inputs.Values[1], inputs.Values[2], inputs.Values[3]};
+            InitialCurIndexToLoades(4);
         }
 
         private void OpenCourseFactionDataInformationQueryAll(object sender, EventArgs e)
         {
             //学生成绩查询所有
-            MessageBox.Show("学生成绩查询所有");
+            InitialCurIndexToLoades(3);
         }
 
         private void OpenCourseDataInformationFulySearch(object sender, EventArgs e)
         {
             //课程信息模糊查询
-            MessageBox.Show("课程信息模糊查询");
+            FrmInputs inputs = new FrmInputs("课程查询",new string[] {"课程名"},new Dictionary<string, HZH_Controls.TextInputType>() { {"课程名",HZH_Controls.TextInputType.Regex } },new Dictionary<string, string>() { { "课程名", @"^.+$" } });
+            var dialogRes=inputs.ShowDialog();
+            if (dialogRes == DialogResult.Cancel)
+            {
+                return;
+            }
+            values = new string[] { inputs.Values[0] };
+            InitialCurIndexToLoades(0);
         }
 
         private void OpenCourseDataInformationQueryAll(object sender, EventArgs e)
         {
             //课程信息查询所有
-            modelID = -1;
-            int temp = curIndex;
-            try
-            {
-                curIndex = 1;
-                var res=Loades();
-                SetDataGridViewDataSource(res);
-            }
-            catch
-            {
-                curIndex = temp;
-            }
+            InitialCurIndexToLoades(-1);
         }
         private void trvEx1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -286,21 +286,27 @@ namespace StudentInformationManagerSystem
             var @class = e.Node.Tag as T_Class;
             if (@class == null) return;
             string className = @class.ClassName;
+            values = new string[] { string.Empty, className, string.Empty };
             //根据class来进行查询它下面的开课信息
-            T_CourseDAL dal = new T_CourseDAL();
+            InitialCurIndexToLoades(2);
+        }
+        /// <summary>
+        /// 初始化modelID和curIndex并调用Loades方法进行查询
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="curindex"></param>
+        private void InitialCurIndexToLoades(int modelID, int curindex = 1){
+            this.modelID = modelID;
+            int temp = curIndex;
             try
             {
-                values = new string[] { string.Empty, className, string.Empty };
-                curIndex = 1;
-                var res = dal.ExecuteT_Course(curIndex, dataLength, string.Empty, className, string.Empty);
-                dataGridView1.DataSource = res;
-                var Nextitem = navMenu.Items[4] as ExpandNavigationMenuItem;
-                var Preitem = navMenu.Items[5] as ExpandNavigationMenuItem;
-                modelID = 2;
+                this.curIndex = curindex;
+                var res = Loades();
+                SetDataGridViewDataSource(res);
             }
             catch
             {
-                curIndex = temp1;
+                curIndex = temp;
             }
         }
         /// <summary>
@@ -316,12 +322,17 @@ namespace StudentInformationManagerSystem
                 case 0: { res = dal.ExecuteListCourseName(curIndex, dataLength, values[0]); }; break;
                 case 1:
                     {
-                        var @class = trvEx1.SelectedNode.Tag as T_Class;
-                        if (@class == null) break;
-                        string className = @class.ClassName;
                         res = dal.ExecuteT_Course(curIndex, dataLength, string.Empty, string.Empty, string.Empty);
                     }; break;
-                case 2: { res = dal.ExecuteT_Course(curIndex, dataLength, values[0], values[1], values[2]); }; break;
+                case 2: {
+                        res = dal.ExecuteT_Course(curIndex, dataLength, values[0], values[1], values[2]); 
+                    }; break;
+                case 3: {
+                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength, string.Empty,string.Empty,string.Empty,string.Empty);
+                    };break;
+                case 4: {
+                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength,  values[0], values[1], values[2], values[3]);
+                    }; break;
                 default:; break;
             }
             return res;
@@ -331,6 +342,7 @@ namespace StudentInformationManagerSystem
         /// </summary>
         /// <param name="set"></param>
         private void SetDataGridViewDataSource(object set) {
+            dataGridView1.DataSource = null;
             dataGridView1.DataSource = set;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }

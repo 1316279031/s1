@@ -64,5 +64,38 @@ namespace StudentInformationManagerSystem.DAL
             }
             return res;
         }
+
+        internal object ExecuteT_CourseFaction(int curIndex, int dataLength, string stuID, string stuName, string courseName, string teachName)
+        {
+            string t_sql = "SelectT_CourseFaction";
+            SqlParameter[] pars = new SqlParameter[] {
+                new SqlParameter("@curIndex",SqlDbType.Int){Value=curIndex},
+                new SqlParameter("@dataLength",SqlDbType.Int){Value=dataLength},
+                new SqlParameter("@stuID",SqlDbType.VarChar){Value="%"+stuID+"%"},
+                new SqlParameter("@stuName",SqlDbType.VarChar){Value="%"+stuName+"%"},
+                new SqlParameter("@courseName",SqlDbType.VarChar){Value="%"+courseName+"%"},
+                new SqlParameter("@teachName",SqlDbType.VarChar){Value="%"+teachName+"%"}
+            };
+            SqlHelper sql = new SqlHelper();
+            List<T_CourseFaction> factions = null;
+            using (SqlDataReader reader = sql.ExecuteReader(t_sql, CommandType.StoredProcedure, pars)) {
+                if (reader.HasRows)
+                {
+                    factions = new List<T_CourseFaction>();
+                    while (reader.Read())
+                    {
+                        T_CourseFaction faction = new T_CourseFaction();
+                        faction.ID = reader.GetInt32(0);
+                        faction.StuID = reader.GetInt32(1);
+                        faction.StuName = reader.GetString(2);
+                        faction.CourseName = reader.GetString(3);
+                        faction.TeacherName = reader.GetString(4);
+                        faction.Faction = reader.IsDBNull(5)?0:float.Parse(reader.GetValue(5).ToString());
+                        factions.Add(faction);
+                    }
+                }
+            }
+            return factions;
+        }
     }
 }

@@ -10,6 +10,6 @@ namespace StudentInformationManagerSystem.Model
     public class T_CourseName
     {
         [DisplayName("课程名")]
-        public string CourseName { get; set; }
+        public virtual string CourseName { get; set; }
     }
 }

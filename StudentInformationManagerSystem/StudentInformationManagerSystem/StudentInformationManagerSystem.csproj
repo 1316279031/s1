@@ -109,6 +109,7 @@
     <Compile Include="Model\T_Class.cs" />
     <Compile Include="Model\T_College.cs" />
     <Compile Include="Model\T_Course.cs" />
+    <Compile Include="Model\T_CourseFaction.cs" />
     <Compile Include="Model\T_CourseName.cs" />
     <Compile Include="Model\T_Student.cs" />
     <Compile Include="Model\T_User.cs" />

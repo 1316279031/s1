@@ -108,6 +108,59 @@
     model=2:班级开课信息的模糊查询：：：并且此modelID的设置页用在了TreeView控件上的点击事件中
     model=3:查询所有学生成绩
     model=4:模糊查询学生成绩
+    
+    //进行封装；我们不同的操作，只需要更改modelID，和初始化curIndex就完成了一个不同种类的查询
+    private void InitialCurIndexToLoades(int modelID, int curindex = 1){
+            this.modelID = modelID;
+            int temp = curIndex;
+            try
+            {
+                this.curIndex = curindex;
+                var res = Loades();
+                SetDataGridViewDataSource(res);
+            }
+            catch
+            {
+                curIndex = temp;
+            }
+        }
+        /// <summary>
+        /// 根据ModelID选项来设查询
+        /// </summary>
+        /// <returns></returns>
+        private object Loades() {
+            object res = null;
+            T_CourseDAL dal = new T_CourseDAL();
+            switch (modelID)
+            {
+                case -1: { res = dal.ExecuteListCourseName(curIndex, dataLength); }; break;
+                case 0: { res = dal.ExecuteListCourseName(curIndex, dataLength, values[0]); }; break;
+                case 1:
+                    {
+                        res = dal.ExecuteT_Course(curIndex, dataLength, string.Empty, string.Empty, string.Empty);
+                    }; break;
+                case 2: {
+                        res = dal.ExecuteT_Course(curIndex, dataLength, values[0], values[1], values[2]); 
+                    }; break;
+                case 3: {
+                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength, string.Empty,string.Empty,string.Empty,string.Empty);
+                    };break;
+                case 4: {
+                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength,  values[0], values[1], values[2], values[3]);
+                    }; break;
+                default:; break;
+            }
+            return res;
+        }
+        /// <summary>
+        /// 设置DataGridView数据源
+        /// </summary>
+        /// <param name="set"></param>
+        private void SetDataGridViewDataSource(object set) {
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = set;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
 
 # 存储过程
 + **分页**
@@ -121,7 +174,7 @@
   >>>存储过程名为:SelectStudent_Pagiation
   该存储过程如果传递的classid值为-1；即表示分页查询所有数据
 如果传入的classsid!=-1即表示根据classid进行分页查询
-
+5
 + **StudentBasicInformationInsert 插入学生基本信息的存储过程**
 + **使用事务，当返回1时表示插入成功，当返回0时表示插入失败**
 
