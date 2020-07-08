@@ -18,5 +18,9 @@ namespace StudentInformationManagerSystem.Model
             CollegeID = collegeID;
             CollegeName = collegeName;
         }
+        public override string ToString()
+        {
+            return CollegeName;
+        }
     }
 }

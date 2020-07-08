@@ -118,28 +118,93 @@ namespace StudentInformationManagerSystem
             it2[2].Items = it8;
             ExpandNavigationMenuItem[] it5 = new ExpandNavigationMenuItem[] {
                 new ExpandNavigationMenuItem(){Text="更新班级开课信息" },
-                new ExpandNavigationMenuItem(){Text="更新成绩信息"}
+                new ExpandNavigationMenuItem(){Text="更新成绩信息"},
+                new ExpandNavigationMenuItem(){Text="更新课程信息"},
             };
             it1[1].Items = it5;
             it5[0].Click += OpenUpdataCourseDataInformation;
             it5[1].Click += OpenUpdataCourseFactionDataInformation;
+            it5[2].Click += OpenUpdateCourse; ;
             ExpandNavigationMenuItem[] it6 = new ExpandNavigationMenuItem[] {
                 new ExpandNavigationMenuItem(){Text="插入班级开课信息" },
-                new ExpandNavigationMenuItem(){Text="插入成绩信息"}
+                new ExpandNavigationMenuItem(){Text="插入成绩信息"},
+                new ExpandNavigationMenuItem(){Text="插入课程信息"},
             };
             it6[0].Click += OpenInsertCourseDataInformation;
             it6[1].Click += OpenInsertCourseFactionDataInformation;
+            it6[2].Click += OpenInsertCourse;
             it1[2].Items = it6;
             ExpandNavigationMenuItem[] it7 = new ExpandNavigationMenuItem[] {
                 new ExpandNavigationMenuItem(){Text="删除班级开课信息" },
-                new ExpandNavigationMenuItem(){Text="删除成绩信息"}
+                new ExpandNavigationMenuItem(){Text="删除成绩信息"},
+                new ExpandNavigationMenuItem(){Text="删除课程信息"},
             };
             it7[0].Click += OpenDeleteCourseDataInformation; ;
-            it7[1].Click += OpenDeleteCourseFactionDataInformation; ;
+            it7[1].Click += OpenDeleteCourseFactionDataInformation;
+            it7[2].Click += OpenDeleteCourse;
             it1[3].Items = it7;
             navMenu.Items = it1;
             navMenu.ClickItemed += OpenStart;
 
+        }
+        //更新课程
+        private void OpenUpdateCourse(object sender, EventArgs e)
+        {
+            //获取选择的dataGridView
+            var rows= dataGridView1.SelectedRows;
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "请选择一行");
+                return;
+            }
+            var row = rows[0];
+            var courseName=row.DataBoundItem as T_CourseName;
+            if (courseName == null) return;
+            FrmUpdaateCourse frmUpdaate = new FrmUpdaateCourse(courseName);
+            frmUpdaate.ShowDialog();
+            InitialCurIndexToLoades(modelID,curIndex);
+        }
+        //插入课程
+        private void OpenInsertCourse(object sender, EventArgs e)
+        {
+            FrmInsertedCourse insertCourse = new FrmInsertedCourse();
+            insertCourse.ShowDialog();
+            InitialCurIndexToLoades(modelID, curIndex);
+        }
+
+        //删除课程
+        private void OpenDeleteCourse(object sender, EventArgs e)
+        {
+            //获取选择的dataGridView
+            var rows = dataGridView1.SelectedRows;
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "请选择一行");
+                return;
+            }
+            var row = rows[0];
+            var courseName = row.DataBoundItem as T_CourseName;
+            if (courseName == null) return;
+            string t_sql = "DeleteCourse";
+            SqlParameter par = new SqlParameter("@courseid", SqlDbType.Int) { Value = courseName.CourseID };
+            T_CourseDAL dal = new T_CourseDAL();
+            try
+            {
+                var res = (int)dal.ExecuteScalar(t_sql, CommandType.StoredProcedure, par);
+                if (res == 1)
+                {
+                    FrmDialog.ShowDialog(this, "保存成功");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
+                FrmDialog.ShowDialog(this, "保存失败");
+            }
+            InitialCurIndexToLoades(modelID, curIndex);
         }
 
         private void OpenClassCourseDataInforamtionFulySerach(object sender, EventArgs e)
@@ -197,40 +262,132 @@ namespace StudentInformationManagerSystem
                 curIndex = temp;
             }
         }
+        //删除学生成绩信息
         private void OpenDeleteCourseFactionDataInformation(object sender, EventArgs e)
         {
-           //删除学生成绩信息
-            MessageBox.Show("删除学生成绩信息");
-        }
+            //获取选择的dataGridView
+            var rows = dataGridView1.SelectedRows;
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "请选择一行");
+                return;
+            }
+            var row = rows[0];
+            var courseName = row.DataBoundItem as T_CourseFaction;
+            if (courseName == null) return;
+            string t_sql = "DeleteCourseFaction";
+            SqlParameter par = new SqlParameter("@id",SqlDbType.Int) { Value = courseName.ID };
+            T_CourseDAL dal = new T_CourseDAL();
+            try
+            {
+                var res = (int)dal.ExecuteScalar(t_sql, CommandType.StoredProcedure, par);
+                if (res == 1)
+                {
+                    FrmDialog.ShowDialog(this, "保存成功");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
+                FrmDialog.ShowDialog(this, "保存失败");
+            }
+            InitialCurIndexToLoades(modelID, curIndex);
 
+        }
+        //删除客课程信息(即删除班级开课信息)
         private void OpenDeleteCourseDataInformation(object sender, EventArgs e)
         {
-            //删除客课程信息
-            MessageBox.Show("删除班级开课信息");
+            //获取选择的dataGridView
+            var rows = dataGridView1.SelectedRows;
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "请选择一行");
+                return;
+            }
+            var row = rows[0];
+            var courseName = row.DataBoundItem as T_Course;
+            if (courseName == null) return;
+            string t_sql = "DeleClassSetUpCourse";
+            SqlParameter[] par = new SqlParameter[]{
+                new SqlParameter("@classid", SqlDbType.Int) { Value = courseName.classID }, 
+                new SqlParameter("@courseID",SqlDbType.Int){ 
+                Value=courseName.CourseID}
+            };
+            T_CourseDAL dal = new T_CourseDAL();
+            try
+            {
+                var res = (int)dal.ExecuteScalar(t_sql, CommandType.StoredProcedure, par);
+                if (res == 1)
+                {
+                    FrmDialog.ShowDialog(this, "保存成功");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch
+            {
+                FrmDialog.ShowDialog(this, "保存失败");
+            }
+            InitialCurIndexToLoades(modelID, curIndex);
         }
 
         private void OpenInsertCourseFactionDataInformation(object sender, EventArgs e)
         {
             //插入学生成绩信息
-            MessageBox.Show("插入学生成绩信息");
+            FrmInsertCourseFaction insert = new FrmInsertCourseFaction();
+            insert.ShowDialog();
+            InitialCurIndexToLoades(modelID,curIndex);
         }
-
+        //即班级开课信息的插入
         private void OpenInsertCourseDataInformation(object sender, EventArgs e)
         {
             //插入课程信息
-            MessageBox.Show("插入班级开课信息");
+            FrmInsertedClassSetUpCourse insertClassSetUpCourseFrm = new FrmInsertedClassSetUpCourse();
+            insertClassSetUpCourseFrm.ShowDialog();
+            InitialCurIndexToLoades(modelID, curIndex);
         }
 
         private void OpenUpdataCourseFactionDataInformation(object sender, EventArgs e)
         {
             //更新学生成绩信息
-            MessageBox.Show("更新学生成绩信息");
+            var rows = dataGridView1.SelectedRows;
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "请选择一行");
+                return;
+            }
+            var row = rows[0];
+            var courseName = row.DataBoundItem as T_CourseFaction;
+            if (courseName == null) return;
+            FrmUpdateFaction frmUpdaate = new FrmUpdateFaction(courseName);
+            frmUpdaate.ShowDialog();
+            //根据当前的modelD和curIndex进行刷新界面
+            //因:这个modelID,和curIndex就是我们上一步操作的状态
+            InitialCurIndexToLoades(modelID,curIndex);
         }
 
         private void OpenUpdataCourseDataInformation(object sender, EventArgs e)
         {
             //更新课程信息
-            MessageBox.Show("更新班级开课信息");
+            var rows = dataGridView1.SelectedRows;
+            if (rows.Count == 0)
+            {
+                FrmDialog.ShowDialog(this, "请选择一行");
+                return;
+            }
+            var row = rows[0];
+            var courseName = row.DataBoundItem as T_Course;
+            if (courseName == null) return;
+            FrmUpdateClassSetUpCourse frmUpdaate = new FrmUpdateClassSetUpCourse(courseName);
+            frmUpdaate.ShowDialog();
+            //根据当前的modelD和curIndex进行刷新界面
+            //因:这个modelID,和curIndex就是我们上一步操作的状态
+            InitialCurIndexToLoades(modelID, curIndex);
         }
 
         //触发事件

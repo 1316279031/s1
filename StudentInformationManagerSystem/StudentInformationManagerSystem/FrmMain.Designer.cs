@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem17 = new HZH_Controls.Controls.NavigationMenuItem();
-            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem18 = new HZH_Controls.Controls.NavigationMenuItem();
-            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem19 = new HZH_Controls.Controls.NavigationMenuItem();
-            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem20 = new HZH_Controls.Controls.NavigationMenuItem();
+            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem1 = new HZH_Controls.Controls.NavigationMenuItem();
+            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem2 = new HZH_Controls.Controls.NavigationMenuItem();
+            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem3 = new HZH_Controls.Controls.NavigationMenuItem();
+            HZH_Controls.Controls.NavigationMenuItem navigationMenuItem4 = new HZH_Controls.Controls.NavigationMenuItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.naMenu = new HZH_Controls.Controls.UCNavigationMenu();
             this.tvMenu = new HZH_Controls.Controls.TreeViewEx();
@@ -44,47 +44,47 @@
             this.naMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.naMenu.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.naMenu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            navigationMenuItem17.AnchorRight = false;
-            navigationMenuItem17.DataSource = null;
-            navigationMenuItem17.HasSplitLintAtTop = false;
-            navigationMenuItem17.Icon = null;
-            navigationMenuItem17.Items = null;
-            navigationMenuItem17.ItemWidth = 100;
-            navigationMenuItem17.ShowTip = false;
-            navigationMenuItem17.Text = "菜单1";
-            navigationMenuItem17.TipText = null;
-            navigationMenuItem18.AnchorRight = false;
-            navigationMenuItem18.DataSource = null;
-            navigationMenuItem18.HasSplitLintAtTop = false;
-            navigationMenuItem18.Icon = null;
-            navigationMenuItem18.Items = null;
-            navigationMenuItem18.ItemWidth = 100;
-            navigationMenuItem18.ShowTip = false;
-            navigationMenuItem18.Text = "菜单2";
-            navigationMenuItem18.TipText = null;
-            navigationMenuItem19.AnchorRight = true;
-            navigationMenuItem19.DataSource = null;
-            navigationMenuItem19.HasSplitLintAtTop = false;
-            navigationMenuItem19.Icon = null;
-            navigationMenuItem19.Items = null;
-            navigationMenuItem19.ItemWidth = 100;
-            navigationMenuItem19.ShowTip = false;
-            navigationMenuItem19.Text = "菜单3";
-            navigationMenuItem19.TipText = null;
-            navigationMenuItem20.AnchorRight = true;
-            navigationMenuItem20.DataSource = null;
-            navigationMenuItem20.HasSplitLintAtTop = false;
-            navigationMenuItem20.Icon = null;
-            navigationMenuItem20.Items = null;
-            navigationMenuItem20.ItemWidth = 100;
-            navigationMenuItem20.ShowTip = false;
-            navigationMenuItem20.Text = "菜单4";
-            navigationMenuItem20.TipText = null;
+            navigationMenuItem1.AnchorRight = false;
+            navigationMenuItem1.DataSource = null;
+            navigationMenuItem1.HasSplitLintAtTop = false;
+            navigationMenuItem1.Icon = null;
+            navigationMenuItem1.Items = null;
+            navigationMenuItem1.ItemWidth = 100;
+            navigationMenuItem1.ShowTip = false;
+            navigationMenuItem1.Text = "菜单1";
+            navigationMenuItem1.TipText = null;
+            navigationMenuItem2.AnchorRight = false;
+            navigationMenuItem2.DataSource = null;
+            navigationMenuItem2.HasSplitLintAtTop = false;
+            navigationMenuItem2.Icon = null;
+            navigationMenuItem2.Items = null;
+            navigationMenuItem2.ItemWidth = 100;
+            navigationMenuItem2.ShowTip = false;
+            navigationMenuItem2.Text = "菜单2";
+            navigationMenuItem2.TipText = null;
+            navigationMenuItem3.AnchorRight = true;
+            navigationMenuItem3.DataSource = null;
+            navigationMenuItem3.HasSplitLintAtTop = false;
+            navigationMenuItem3.Icon = null;
+            navigationMenuItem3.Items = null;
+            navigationMenuItem3.ItemWidth = 100;
+            navigationMenuItem3.ShowTip = false;
+            navigationMenuItem3.Text = "菜单3";
+            navigationMenuItem3.TipText = null;
+            navigationMenuItem4.AnchorRight = true;
+            navigationMenuItem4.DataSource = null;
+            navigationMenuItem4.HasSplitLintAtTop = false;
+            navigationMenuItem4.Icon = null;
+            navigationMenuItem4.Items = null;
+            navigationMenuItem4.ItemWidth = 100;
+            navigationMenuItem4.ShowTip = false;
+            navigationMenuItem4.Text = "菜单4";
+            navigationMenuItem4.TipText = null;
             this.naMenu.Items = new HZH_Controls.Controls.NavigationMenuItem[] {
-        navigationMenuItem17,
-        navigationMenuItem18,
-        navigationMenuItem19,
-        navigationMenuItem20};
+        navigationMenuItem1,
+        navigationMenuItem2,
+        navigationMenuItem3,
+        navigationMenuItem4};
             this.naMenu.Location = new System.Drawing.Point(0, 0);
             this.naMenu.Name = "naMenu";
             this.naMenu.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
@@ -134,7 +134,7 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(650, 390);
             this.webBrowser1.TabIndex = 9;
-            this.webBrowser1.Url = new System.Uri("http://www.google.cn/", System.UriKind.Absolute);
+            this.webBrowser1.Url = new System.Uri("https://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp&gws_rd=ssl", System.UriKind.Absolute);
             // 
             // FrmMain
             // 

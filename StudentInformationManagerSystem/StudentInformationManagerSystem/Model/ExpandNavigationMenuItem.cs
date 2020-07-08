@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace StudentInformationManagerSystem.Model
 {
@@ -16,8 +17,6 @@ namespace StudentInformationManagerSystem.Model
         /// 扩展事件
         /// </summary>
         public event EventHandler Click;
-        
-        /// <summary>
         /// 触发事件
         /// </summary>
         /// <param name="sender"></param>

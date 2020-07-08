@@ -23,5 +23,9 @@ namespace StudentInformationManagerSystem.Model
             ClassName = className;
             CollegeID = collegeID;
         }
+        public override string ToString()
+        {
+            return ClassName;
+        }
     }
 }

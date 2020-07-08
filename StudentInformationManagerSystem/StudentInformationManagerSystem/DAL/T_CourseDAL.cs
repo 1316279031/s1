@@ -12,6 +12,27 @@ namespace StudentInformationManagerSystem.DAL
 {
     public class T_CourseDAL
     {
+        public List<T_CourseName> ExecuteListCourseName()
+        {
+            string t_sql = "select CourseID,CourseName from T_Course";
+            SqlHelper helper = new SqlHelper();
+            List<T_CourseName> res = null;
+            using (SqlDataReader reader = helper.ExecuteReader(t_sql, CommandType.Text))
+            {
+                if (reader.HasRows)
+                {
+                    res = new List<T_CourseName>();
+                    while (reader.Read())
+                    {
+                        T_CourseName cs = new T_CourseName();
+                        cs.CourseID = reader.GetInt32(0);
+                        cs.CourseName = reader.GetString(1);
+                        res.Add(cs);
+                    }
+                }
+            }
+            return res;
+        }
         public List<T_CourseName> ExecuteListCourseName(int curIndex,int dataLength,string courseName="")
         {
             string t_sql = "SelectCourseName";
@@ -27,7 +48,8 @@ namespace StudentInformationManagerSystem.DAL
                     res = new List<T_CourseName>();
                     while (reader.Read()) {
                         T_CourseName cs = new T_CourseName();
-                        cs.CourseName = reader.GetString(0);
+                        cs.CourseID = reader.GetInt32(0);
+                        cs.CourseName = reader.GetString(1);
                         res.Add(cs);
                     }
                 }
@@ -97,5 +119,41 @@ namespace StudentInformationManagerSystem.DAL
             }
             return factions;
         }
+        public object ExecuteScalar(string t_sql, CommandType cmdType, params SqlParameter[] pars) {
+            SqlHelper sql = new SqlHelper();
+            return sql.ExecuteScalar(t_sql, cmdType, pars);
+        }
+
+        public object ExecuteNonQuery(string t_sql, CommandType cmdType, params SqlParameter[] pars)
+        {
+            SqlHelper sql = new SqlHelper();
+            return sql.ExecuteScalar(t_sql, cmdType, pars);
+        }
+        public List<T_InsertedFactionModel> ExecuteT_ClassSetUpCourseTeach(int classID)
+        {
+            string t_sql = "SelectClassSetUpCourse";
+            SqlParameter par = new SqlParameter("@classID",SqlDbType.Int) { Value = classID };
+            SqlHelper helper = new SqlHelper();
+            List<T_InsertedFactionModel> res = null;
+            using (SqlDataReader reader = helper.ExecuteReader(t_sql, CommandType.StoredProcedure, par))
+            {
+                if (reader.HasRows)
+                {
+                    res = new List<T_InsertedFactionModel>();
+                    while (reader.Read())
+                    {
+                        //select s3.CourseID,s3.ClassID,s3.ClassName,s3.CourseName,s3.TeacherName
+                        T_InsertedFactionModel course = new T_InsertedFactionModel();
+                        course.CourseID = reader.GetInt32(0);
+                        course.CourseName = reader.GetString(1);
+                        course.TeacherID = reader.GetInt32(2);
+                        course.TeacherName = reader.GetString(3);
+                        res.Add(course);
+                    }
+                }
+            }
+            return res;
+        }
+
     }
 }
