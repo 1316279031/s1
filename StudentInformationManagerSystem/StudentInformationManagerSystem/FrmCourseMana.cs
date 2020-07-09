@@ -104,10 +104,12 @@ namespace StudentInformationManagerSystem
             it2[0].Items = it3;
             ExpandNavigationMenuItem[] it4 = new ExpandNavigationMenuItem[] {
                 new ExpandNavigationMenuItem(){Text="查询所有" },
-                new ExpandNavigationMenuItem(){Text="模糊查询" }
+                new ExpandNavigationMenuItem(){Text="模糊查询" },
+                new ExpandNavigationMenuItem(){Text="查询班级必修课成绩" },
             };
             it4[0].Click += OpenCourseFactionDataInformationQueryAll; ;
             it4[1].Click += OpenCourseFactionDataInformationFulySerach; ;
+            it4[2].Click += OpenClassCompulsoryCourseFaction; ; ;
             it2[1].Items = it4;
             ExpandNavigationMenuItem[] it8 = new ExpandNavigationMenuItem[] {
                 new ExpandNavigationMenuItem(){Text="查询所有" },
@@ -147,6 +149,23 @@ namespace StudentInformationManagerSystem
             navMenu.ClickItemed += OpenStart;
 
         }
+        /// <summary>
+        /// 查询班级必修课成绩
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenClassCompulsoryCourseFaction(object sender, EventArgs e)
+        {
+            using (FrmSelectCompulsoryCourse select = new FrmSelectCompulsoryCourse())
+            {
+                var dig=select.ShowDialog();
+                if (dig == DialogResult.Cancel) return;
+                values= select.Values;
+                modelID = 5;
+                InitialCurIndexToLoades(modelID, 1);
+            }
+        }
+
         //更新课程
         private void OpenUpdateCourse(object sender, EventArgs e)
         {
@@ -167,9 +186,10 @@ namespace StudentInformationManagerSystem
         //插入课程
         private void OpenInsertCourse(object sender, EventArgs e)
         {
-            FrmInsertedCourse insertCourse = new FrmInsertedCourse();
-            insertCourse.ShowDialog();
-            InitialCurIndexToLoades(modelID, curIndex);
+            using (FrmInsertedCourse insertCourse = new FrmInsertedCourse()) {
+                insertCourse.ShowDialog();
+                InitialCurIndexToLoades(modelID, curIndex);
+            }
         }
 
         //删除课程
@@ -210,14 +230,16 @@ namespace StudentInformationManagerSystem
         private void OpenClassCourseDataInforamtionFulySerach(object sender, EventArgs e)
         {
             //班级开课信息模糊查询
-            FrmInputs inputs = new FrmInputs("班级开课查询", new string[] { "课程名", "班级名", "教师名" }, new Dictionary<string, HZH_Controls.TextInputType>() { { "课程名", HZH_Controls.TextInputType.Regex }, { "班级名", HZH_Controls.TextInputType.Regex }, { "教师名", HZH_Controls.TextInputType.Regex } }, new Dictionary<string, string>() { { "课程名", @"^.+$" }, { "班级名", @"^[\u4E00-\u9FFF0-9]+$" }, {"教师名", @"^[\u4E00-\u9FFF0-9]+$" } });
-            var dialogRes=inputs.ShowDialog();
-            if (dialogRes == DialogResult.Cancel)
+            using (FrmInputs inputs = new FrmInputs("班级开课查询", new string[] { "课程名", "班级名", "教师名" }, new Dictionary<string, HZH_Controls.TextInputType>() { { "课程名", HZH_Controls.TextInputType.Regex }, { "班级名", HZH_Controls.TextInputType.Regex }, { "教师名", HZH_Controls.TextInputType.Regex } }, new Dictionary<string, string>() { { "课程名", @"^.+$" }, { "班级名", @"^[\u4E00-\u9FFF0-9]+$" }, { "教师名", @"^[\u4E00-\u9FFF0-9]+$" } }))
             {
-                return;
+                var dialogRes = inputs.ShowDialog();
+                if (dialogRes == DialogResult.Cancel)
+                {
+                    return;
+                }
+                values = new string[] { inputs.Values[0], inputs.Values[1], inputs.Values[2] };
+                InitialCurIndexToLoades(2);
             }
-            values = new string[] { inputs.Values[0], inputs.Values[1], inputs.Values[2] };
-            InitialCurIndexToLoades(2);
         }
 
         private void OpenClassOurseDataInformationQueryAll(object sender, EventArgs e)
@@ -339,17 +361,21 @@ namespace StudentInformationManagerSystem
         private void OpenInsertCourseFactionDataInformation(object sender, EventArgs e)
         {
             //插入学生成绩信息
-            FrmInsertCourseFaction insert = new FrmInsertCourseFaction();
-            insert.ShowDialog();
-            InitialCurIndexToLoades(modelID,curIndex);
+            using (FrmInsertCourseFaction insert = new FrmInsertCourseFaction())
+            {
+                insert.ShowDialog();
+                InitialCurIndexToLoades(modelID, curIndex);
+            }
         }
         //即班级开课信息的插入
         private void OpenInsertCourseDataInformation(object sender, EventArgs e)
         {
             //插入课程信息
-            FrmInsertedClassSetUpCourse insertClassSetUpCourseFrm = new FrmInsertedClassSetUpCourse();
-            insertClassSetUpCourseFrm.ShowDialog();
-            InitialCurIndexToLoades(modelID, curIndex);
+            using (FrmInsertedClassSetUpCourse insertClassSetUpCourseFrm = new FrmInsertedClassSetUpCourse())
+            {
+                insertClassSetUpCourseFrm.ShowDialog();
+                InitialCurIndexToLoades(modelID, curIndex);
+            }
         }
 
         private void OpenUpdataCourseFactionDataInformation(object sender, EventArgs e)
@@ -364,16 +390,18 @@ namespace StudentInformationManagerSystem
             var row = rows[0];
             var courseName = row.DataBoundItem as T_CourseFaction;
             if (courseName == null) return;
-            FrmUpdateFaction frmUpdaate = new FrmUpdateFaction(courseName);
-            frmUpdaate.ShowDialog();
-            //根据当前的modelD和curIndex进行刷新界面
-            //因:这个modelID,和curIndex就是我们上一步操作的状态
-            InitialCurIndexToLoades(modelID,curIndex);
+            using (FrmUpdateFaction frmUpdaate = new FrmUpdateFaction(courseName))
+            {
+                frmUpdaate.ShowDialog();
+                //根据当前的modelD和curIndex进行刷新界面
+                //因:这个modelID,和curIndex就是我们上一步操作的状态
+                InitialCurIndexToLoades(modelID, curIndex);
+            }
         }
-
+        //更新课程信息
         private void OpenUpdataCourseDataInformation(object sender, EventArgs e)
         {
-            //更新课程信息
+            
             var rows = dataGridView1.SelectedRows;
             if (rows.Count == 0)
             {
@@ -383,11 +411,13 @@ namespace StudentInformationManagerSystem
             var row = rows[0];
             var courseName = row.DataBoundItem as T_Course;
             if (courseName == null) return;
-            FrmUpdateClassSetUpCourse frmUpdaate = new FrmUpdateClassSetUpCourse(courseName);
-            frmUpdaate.ShowDialog();
-            //根据当前的modelD和curIndex进行刷新界面
-            //因:这个modelID,和curIndex就是我们上一步操作的状态
-            InitialCurIndexToLoades(modelID, curIndex);
+            using(FrmUpdateClassSetUpCourse frmUpdaate = new FrmUpdateClassSetUpCourse(courseName))
+            {
+                frmUpdaate.ShowDialog();
+                //根据当前的modelD和curIndex进行刷新界面
+                //因:这个modelID,和curIndex就是我们上一步操作的状态
+                InitialCurIndexToLoades(modelID, curIndex);
+            }
         }
 
         //触发事件
@@ -422,14 +452,16 @@ namespace StudentInformationManagerSystem
         private void OpenCourseDataInformationFulySearch(object sender, EventArgs e)
         {
             //课程信息模糊查询
-            FrmInputs inputs = new FrmInputs("课程查询",new string[] {"课程名"},new Dictionary<string, HZH_Controls.TextInputType>() { {"课程名",HZH_Controls.TextInputType.Regex } },new Dictionary<string, string>() { { "课程名", @"^.+$" } });
-            var dialogRes=inputs.ShowDialog();
-            if (dialogRes == DialogResult.Cancel)
+            using (FrmInputs inputs = new FrmInputs("课程查询", new string[] { "课程名" }, new Dictionary<string, HZH_Controls.TextInputType>() { { "课程名", HZH_Controls.TextInputType.Regex } }, new Dictionary<string, string>() { { "课程名", @"^.+$" } }))
             {
-                return;
+                var dialogRes = inputs.ShowDialog();
+                if (dialogRes == DialogResult.Cancel)
+                {
+                    return;
+                }
+                values = new string[] { inputs.Values[0] };
+                InitialCurIndexToLoades(0);
             }
-            values = new string[] { inputs.Values[0] };
-            InitialCurIndexToLoades(0);
         }
 
         private void OpenCourseDataInformationQueryAll(object sender, EventArgs e)
@@ -454,7 +486,7 @@ namespace StudentInformationManagerSystem
         /// <param name="curindex"></param>
         private void InitialCurIndexToLoades(int modelID, int curindex = 1){
             this.modelID = modelID;
-            int temp = curIndex;
+            int temp = this.curIndex;
             try
             {
                 this.curIndex = curindex;
@@ -482,14 +514,18 @@ namespace StudentInformationManagerSystem
                         res = dal.ExecuteT_Course(curIndex, dataLength, string.Empty, string.Empty, string.Empty);
                     }; break;
                 case 2: {
-                        res = dal.ExecuteT_Course(curIndex, dataLength, values[0], values[1], values[2]); 
+                        res = dal.ExecuteT_Course(curIndex, dataLength, values[0], values[1], values[2]);
                     }; break;
                 case 3: {
-                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength, string.Empty,string.Empty,string.Empty,string.Empty);
-                    };break;
-                case 4: {
-                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength,  values[0], values[1], values[2], values[3]);
+                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength, string.Empty, string.Empty, string.Empty, string.Empty);
                     }; break;
+                case 4: {
+                        res = dal.ExecuteT_CourseFaction(curIndex, dataLength, values[0], values[1], values[2], values[3]);
+                    }; break;
+                case 5:
+                    {
+                        res = dal.ExecuteClassStudentsCompulsoryCourseFaction(curIndex, dataLength, values[0], values[1]);
+                    };break;
                 default:; break;
             }
             return res;

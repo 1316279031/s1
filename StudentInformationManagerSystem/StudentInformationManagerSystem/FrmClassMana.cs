@@ -26,16 +26,22 @@ namespace StudentInformationManagerSystem
         private int dataLength = 16;
         private void FrmClassMana_Load(object sender, EventArgs e)
         {
-            LoadNavMenuItem();
-            LoadTreeNodes();
-            //首先我们加载所有学生信息，以分页的方式显示出来
-            var res= new T_ClassDAL().LoadPagiation(curIndex, dataLength, collegeID);
-            if (res == null) return;
-            dataGridView1.DataSource = res; 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.Columns[0].HeaderText = "班级编号";
-            dataGridView1.Columns[1].HeaderText = "班级名";
-            dataGridView1.Columns[2].HeaderText = "学院编号";
+            try
+            {
+                LoadNavMenuItem();
+                LoadTreeNodes();
+                //首先我们加载所有学生信息，以分页的方式显示出来
+                var res = new T_ClassDAL().LoadPagiation(curIndex, dataLength, collegeID);
+                if (res == null) return;
+                dataGridView1.DataSource = res;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView1.Columns[0].HeaderText = "班级编号";
+                dataGridView1.Columns[1].HeaderText = "班级名";
+                dataGridView1.Columns[2].HeaderText = "学院编号";
+            }
+            catch {
+                MessageBox.Show("错误");
+            }
         }
         //加载树
         private void LoadTreeNodes()

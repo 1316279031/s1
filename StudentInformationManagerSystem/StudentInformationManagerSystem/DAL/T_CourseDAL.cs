@@ -12,6 +12,10 @@ namespace StudentInformationManagerSystem.DAL
 {
     public class T_CourseDAL
     {
+        /// <summary>
+        /// 查询课程ID+课程名
+        /// </summary>
+        /// <returns></returns>
         public List<T_CourseName> ExecuteListCourseName()
         {
             string t_sql = "select CourseID,CourseName from T_Course";
@@ -33,6 +37,51 @@ namespace StudentInformationManagerSystem.DAL
             }
             return res;
         }
+        /// <summary>
+        /// 根据班级课程查询班级必修课成绩
+        /// </summary>
+        /// <param name="curIndex"></param>
+        /// <param name="dataLength"></param>
+        /// <param name="classID"></param>
+        /// <param name="courseID"></param>
+        /// <returns></returns>
+        public List<ClassCompulsortCourseFaction> ExecuteClassStudentsCompulsoryCourseFaction(int curIndex,int dataLength,string classID,string courseID)
+        {
+            string t_sql = "SelectT_ClassStudentsCompulsoryCourseFaction";
+            SqlHelper helper = new SqlHelper();
+            List<ClassCompulsortCourseFaction> res = null;
+            SqlParameter[] pars = new SqlParameter[] {
+                new SqlParameter("@curIndex",SqlDbType.Int){Value=curIndex},
+                new SqlParameter("@dataLength",SqlDbType.Int){Value=dataLength},
+                new SqlParameter("@classid",SqlDbType.VarChar){Value="%"+classID+"%"},
+                new SqlParameter("@courseID",SqlDbType.VarChar){Value="%"+courseID+"%"},
+            };
+            using (SqlDataReader reader = helper.ExecuteReader(t_sql, CommandType.StoredProcedure,pars))
+            {
+                if (reader.HasRows)
+                {
+                    res = new List<ClassCompulsortCourseFaction>();
+                    while (reader.Read())
+                    {
+                        ClassCompulsortCourseFaction cs = new ClassCompulsortCourseFaction();
+                        cs.StuID = reader.GetInt32(0);
+                        cs.StuName = reader.GetString(1);
+                        cs.ClassName = reader.GetString(2);
+                        cs.CourseName = reader.GetString(3);
+                        cs.Faction = reader.IsDBNull(4)?0:float.Parse(reader.GetValue(4).ToString());
+                        res.Add(cs);
+                    }
+                }
+            }
+            return res;
+        }
+        /// <summary>
+        /// 存储过程:SelectCourseName(模糊查询课程ID+课程名)
+        /// </summary>
+        /// <param name="curIndex"></param>
+        /// <param name="dataLength"></param>
+        /// <param name="courseName"></param>
+        /// <returns></returns>
         public List<T_CourseName> ExecuteListCourseName(int curIndex,int dataLength,string courseName="")
         {
             string t_sql = "SelectCourseName";
@@ -87,6 +136,16 @@ namespace StudentInformationManagerSystem.DAL
             return res;
         }
 
+        /// <summary>
+        /// 根据关键字执行SelectT_CourseFaction模糊查询查询得到T_CourseFaction
+        /// </summary>
+        /// <param name="curIndex"></param>
+        /// <param name="dataLength"></param>
+        /// <param name="stuID"></param>
+        /// <param name="stuName"></param>
+        /// <param name="courseName"></param>
+        /// <param name="teachName"></param>
+        /// <returns></returns>
         internal object ExecuteT_CourseFaction(int curIndex, int dataLength, string stuID, string stuName, string courseName, string teachName)
         {
             string t_sql = "SelectT_CourseFaction";
@@ -129,6 +188,11 @@ namespace StudentInformationManagerSystem.DAL
             SqlHelper sql = new SqlHelper();
             return sql.ExecuteScalar(t_sql, cmdType, pars);
         }
+        /// <summary>
+        /// 查询指定班级ID所选必修课程
+        /// </summary>
+        /// <param name="classID"></param>
+        /// <returns></returns>
         public List<T_InsertedFactionModel> ExecuteT_ClassSetUpCourseTeach(int classID)
         {
             string t_sql = "SelectClassSetUpCourse";
@@ -154,6 +218,5 @@ namespace StudentInformationManagerSystem.DAL
             }
             return res;
         }
-
     }
 }

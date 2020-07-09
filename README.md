@@ -103,11 +103,12 @@
     - *Loades方法根据modelID,curIndex,dataLength三个字段进行不同的查询选择;其中modelID(是switch参数)*
     ```
     modelID=-1:查询所有课程信息
-    model=0:对课程信息进行模糊查询
-    model=1:查询所有班级开课信息::::
-    model=2:班级开课信息的模糊查询：：：并且此modelID的设置页用在了TreeView控件上的点击事件中
-    model=3:查询所有学生成绩
-    model=4:模糊查询学生成绩
+    modelID=0:对课程信息进行模糊查询
+    modelID=1:查询所有班级开课信息::::
+    modelID=2:班级开课信息的模糊查询：：：并且此modelID的设置页用在了TreeView控件上的点击事件中
+    modelID=3:查询所有学生成绩
+    modelID=4:模糊查询学生成绩
+    modelID=5:根据班级课程查询班级必修课成绩
     
     //进行封装；我们不同的操作，只需要更改modelID，和初始化curIndex就完成了一个不同种类的查询
     private void InitialCurIndexToLoades(int modelID, int curindex = 1){
@@ -161,7 +162,13 @@
             dataGridView1.DataSource = set;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
-  - ** **
+## 教师信息管理
+  - **增、删、改、查**
+  - **查询**  
+    - **通过教师ID查询其任课的班级和他所教授的课程**
+    - **通过教师ID查询所教学生的成绩**
+
+
 # 存储过程
 + **分页**
   - *主要功能*
@@ -182,7 +189,10 @@
 
 + **DeleteIntoStudentBasicInformation删除学生基本信息的存储过程**
 + **SelectT_ClassCourse:主要在查询开设课程时，可以进行模糊查询+分页**
-+  ****
++ **SelectClassSetUpCourse：--查询指定班级ID所选必修课程**
++ **SelectT_CourseFaction：查询成绩存储过程**
++ **SelectT_TeachStudentFaction:查询指定教师所教学生的成绩**
++  **SelectT_ClassStudentsCompulsoryCourseFaction：--查询指定班级/课程下的开设必修课学生成绩**
 
 
 

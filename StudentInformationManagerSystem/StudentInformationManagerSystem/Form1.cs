@@ -63,7 +63,7 @@ namespace StudentInformationManagerSystem
                         FrmMain main = new FrmMain();
                         Hide();
                         main.ShowDialog();
-                        Close();
+                        Dispose();
                         return;
                     }
                     else

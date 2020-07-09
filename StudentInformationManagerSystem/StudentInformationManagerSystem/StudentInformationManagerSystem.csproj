@@ -98,6 +98,12 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSelectCompulsoryCourse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSelectCompulsoryCourse.Designer.cs">
+      <DependentUpon>FrmSelectCompulsoryCourse.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmSelectStudent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,12 @@
     </Compile>
     <Compile Include="FrmStudentManaChildModifyData.Designer.cs">
       <DependentUpon>FrmStudentManaChildModifyData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmTeachDataInformationMana.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTeachDataInformationMana.Designer.cs">
+      <DependentUpon>FrmTeachDataInformationMana.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmUpdaateCourse.cs">
       <SubType>Form</SubType>
@@ -146,6 +158,7 @@
     <Compile Include="FrmUpdateFaction.Designer.cs">
       <DependentUpon>FrmUpdateFaction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\ClassCompulsortCourseFaction.cs" />
     <Compile Include="Model\ExpandMenuItemEntity.cs" />
     <Compile Include="Model\ExpandNavigationMenuItem.cs" />
     <Compile Include="Model\PageTrunArgs.cs" />
@@ -179,6 +192,9 @@
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmSelectCompulsoryCourse.resx">
+      <DependentUpon>FrmSelectCompulsoryCourse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmSelectStudent.resx">
       <DependentUpon>FrmSelectStudent.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmStudentManaChildModifyData.resx">
       <DependentUpon>FrmStudentManaChildModifyData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTeachDataInformationMana.resx">
+      <DependentUpon>FrmTeachDataInformationMana.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmUpdaateCourse.resx">
       <DependentUpon>FrmUpdaateCourse.cs</DependentUpon>
