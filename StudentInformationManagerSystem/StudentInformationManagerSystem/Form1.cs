@@ -31,10 +31,10 @@ namespace StudentInformationManagerSystem
             ISetValidateControlConfig setValidateControlConfig = new ControlSet();
             var code = genericCode.CreateMemoryValidateCode();
             txtMemCode.Text = code;
-            setValidateControlConfig.SetValidateControl(txtAcc,verAccountValidate, @"^[0-9]{10,15}$", "请输入正确的用户名");
+            setValidateControlConfig.SetValidateControl(txtAcc,verAccountValidate, @"^[0-9]{8,15}$", "请输入正确的用户名");
             verPwdValidate.SetVerificationErrorMsg(txtPwd, "请输入正确的密码");
 
-            setValidateControlConfig.SetValidateControl(txtPwd, verPwdValidate, @"^(?=.*[a-zA-Z]).+?\d{8,}$", "请输入正确的密码");
+            setValidateControlConfig.SetValidateControl(txtPwd, verPwdValidate, @"^(?=.*[a-z]).{8,}$", "请输入正确的密码");
 
             setValidateControlConfig. SetValidateControl(txtValidateCode, verValidateCode, string.Format(@"^({0}|{1})$", code, code.ToLower()), "请输入正确的验证码");
         }

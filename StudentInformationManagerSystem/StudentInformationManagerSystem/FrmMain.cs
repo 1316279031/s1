@@ -1,4 +1,5 @@
 ﻿using HZH_Controls.Controls;
+using HZH_Controls.Forms;
 using StudentInformationManagerSystem.Model;
 using System;
 using System.Collections.Generic;
@@ -90,19 +91,29 @@ namespace StudentInformationManagerSystem
             it2[0].Click += Click_OpenModifyPwd;
             it2[1].Click += Click_LogOut;
             navigation[3].Items = it2;
-            navigation[1].Click += Click_OpenAuthorityMana;
+            navigation[1].Click += Click_OpenStudentDeitalMana; ;
             navigation[2].Click += Click_OpenCollegeMana;
             naMenu.Items = navigation;
             //控件事件(sender=控件对象)
             naMenu.ClickItemed += NaMenu_ClickItemed;
         }
-        private void Click_LogOut(object sender, EventArgs e) { 
-            MessageBox.Show("退出");
-            this.Close();
+
+        private void Click_OpenStudentDeitalMana(object sender, EventArgs e)
+        {
+            MessageBox.Show("打开学生详细表");
+        }
+
+        private void Click_LogOut(object sender, EventArgs e) {
+            Dispose();
         }
         private void Click_OpenModifyPwd(object sender, EventArgs e)
         {
-            MessageBox.Show("修改密码");
+            using (FrmUpdatePasswordDataInforamtion frmUpdatePassowrd= new FrmUpdatePasswordDataInforamtion())
+            {
+                Hide();
+                frmUpdatePassowrd.ShowDialog();
+                Close();
+            }
         }
 
         private void Click_OpenCollegeMana(object sender, EventArgs e)
@@ -110,22 +121,23 @@ namespace StudentInformationManagerSystem
             MessageBox.Show("打开学员管理");
         }
 
-        private void Click_OpenAuthorityMana(object sender, EventArgs e)
-        {
-            MessageBox.Show("打开权限管理");
-        }
-
         private void Click_OPenTeachInforamtionMana(object sender, EventArgs e)
         {
-            MessageBox.Show("打开教师信息管理");
+            using (FrmTeachDataInformationMana teachMan = new FrmTeachDataInformationMana()) {
+                Hide();
+                teachMan.ShowDialog();
+                Show();
+            }
         }
 
         private void Click_OpenCourseInforamtionMna(object sender, EventArgs e)
         {
-            FrmCourseMana courseMain = new FrmCourseMana();
-            Hide();
-            courseMain.ShowDialog();
-            Show();
+            using (FrmCourseMana courseMain = new FrmCourseMana())
+            {
+                Hide();
+                courseMain.ShowDialog();
+                Show();
+            }
         }
 
         private void Click_OpenClassInforamationMana(object sender, EventArgs e)

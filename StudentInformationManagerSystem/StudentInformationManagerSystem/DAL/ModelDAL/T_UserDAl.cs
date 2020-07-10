@@ -26,5 +26,15 @@ namespace StudentInformationManagerSystem.DAL.ModelDAL
             object authority=ExecuteScalar(t_sql, cmdType: CommandType.Text, pars);
             return authority;
         }
+        public bool UpdatePassword(string userId,string password)
+        {
+            string t_sql = "updatePassword";
+            SqlParameter[] pars = new SqlParameter[] {
+                new SqlParameter("@userID",SqlDbType.VarChar,15){Value=userId },
+                new SqlParameter("@newPassword",SqlDbType.VarChar){Value=password }
+            };
+            SqlHelper helper = new SqlHelper();
+            return (int)helper.ExecuteScalar(t_sql, CommandType.StoredProcedure, pars) == 1;
+        }
     }
 }

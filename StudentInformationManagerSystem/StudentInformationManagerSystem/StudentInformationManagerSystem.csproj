@@ -56,6 +56,9 @@
     <Compile Include="BLL\ControlSettingInterface\ISetValidateControlConfig.cs" />
     <Compile Include="BLL\ControlSetting\ControlSet.cs" />
     <Compile Include="BLL\CreateGenericCode.cs" />
+    <Compile Include="BLL\ModelExecuteiionOption.cs" />
+    <Compile Include="BLL\T_TeachBll.cs" />
+    <Compile Include="BLL\T_UserBll.cs" />
     <Compile Include="DAL\T_ClassDAL.cs" />
     <Compile Include="DAL\T_CollegeDAL.cs" />
     <Compile Include="DAL\BaseClass\SqlHelper.cs" />
@@ -128,6 +131,12 @@
     <Compile Include="FrmTeachDataInformationMana.Designer.cs">
       <DependentUpon>FrmTeachDataInformationMana.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmTeachManaDDMLData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTeachManaDDMLData.Designer.cs">
+      <DependentUpon>FrmTeachManaDDMLData.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmUpdaateCourse.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,10 +167,17 @@
     <Compile Include="FrmUpdateFaction.Designer.cs">
       <DependentUpon>FrmUpdateFaction.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmUpdatePasswordDataInforamtion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmUpdatePasswordDataInforamtion.Designer.cs">
+      <DependentUpon>FrmUpdatePasswordDataInforamtion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\ClassCompulsortCourseFaction.cs" />
     <Compile Include="Model\ExpandMenuItemEntity.cs" />
     <Compile Include="Model\ExpandNavigationMenuItem.cs" />
     <Compile Include="Model\PageTrunArgs.cs" />
+    <Compile Include="Model\Teach_s StudentCourseFraction.cs" />
     <Compile Include="Model\T_Class.cs" />
     <Compile Include="Model\T_College.cs" />
     <Compile Include="Model\T_Course.cs" />
@@ -207,6 +223,9 @@
     <EmbeddedResource Include="FrmTeachDataInformationMana.resx">
       <DependentUpon>FrmTeachDataInformationMana.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmTeachManaDDMLData.resx">
+      <DependentUpon>FrmTeachManaDDMLData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmUpdaateCourse.resx">
       <DependentUpon>FrmUpdaateCourse.cs</DependentUpon>
     </EmbeddedResource>
@@ -221,6 +240,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmUpdateFaction.resx">
       <DependentUpon>FrmUpdateFaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmUpdatePasswordDataInforamtion.resx">
+      <DependentUpon>FrmUpdatePasswordDataInforamtion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
