@@ -25,6 +25,13 @@
       window.onload = function(){
             console.log("Hello");
       }
+      for(let i =0 ; i< 10 ; i++){
+          (function(i){
+            setTimeout(() => {
+                console.log(i)
+            }, 100);
+        })(i)
+      }
     </script>
   </body>
 </html>
